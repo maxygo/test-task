@@ -3,11 +3,12 @@
  */
 describe("Parser", function () {
 
-    function i(id, name) {
+    function i(parentId, id, name, items) {
         return {
+            parentId: parentId,
             id: id,
             name: name,
-            items: []
+            items: items || []
         };
     }
 
@@ -19,9 +20,9 @@ describe("Parser", function () {
     });
 
     it("parse array with one item", function () {
-        var result = new ItemTree([{id: 1, name: "first"}]);
+        var result = new ItemTree([{id: 1, name: "first", parentId: null}]);
 
-        expect(result.rootItems).toEqual([i(1, "first", 1)]);
+        expect(result.rootItems).toEqual([i(null, 1, "first")]);
         expect(result.levels).toEqual(1);
     });
 
@@ -39,5 +40,18 @@ describe("Parser", function () {
         expect(result.levels).toEqual(2);
     });
 
+    it("parse three level hierarchy", function () {
+        var result = new ItemTree([
+            {id: 1, name: "first", parentId: null},
+            {id: 2, name: "second", parentId: 1},
+            {id: 3, name: "third", parentId: 2}
+        ]);
 
+        expect(result.rootItems).toEqual([
+            i(null, 1, "first",
+                [i(1, 2, "second",
+                    [i(2, 3, "third")])])
+        ]);
+        expect(result.levels).toEqual(3);
+    })
 });
