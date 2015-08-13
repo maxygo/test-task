@@ -1,18 +1,10 @@
-var Dropdown = function() {
-    var _level,
-        _callback,
-        _oContainer,
-        _items,
+function Dropdown(level, oContainer, callback) {
+
+    var _level = level,
+        _callback = callback,
+        _oContainer = oContainer,
+        _items = [],
         _oSelect;
-
-    function Dropdown(level, oContainer, callback) {
-        _level = level;
-        _oContainer = oContainer;
-        _callback = callback;
-        _items = [];
-
-        _init();
-    }
 
     var _getItemById = function (itemId) {
         for (var i = 0; i < _items.length; i++) {
@@ -25,7 +17,7 @@ var Dropdown = function() {
     var _init = function () {
         _oSelect = document.createElement("select");
         _oSelect.id = "dropdown-" + _level;
-        _oSelect.options.add( new Option("Not Selected", -1) );
+        _oSelect.options.add(new Option("Not Selected", -1));
         _oSelect.addEventListener("change", function () {
             var itemId = this.options[this.selectedIndex].value;
             var item = _getItemById(itemId);
@@ -41,7 +33,7 @@ var Dropdown = function() {
         }
     };
 
-    Dropdown.prototype.render = function (items) {
+    this.render = function (items) {
         _items = items;
         _oSelect = document.getElementById("dropdown-" + _level);
         _oSelect.disabled = false;
@@ -56,8 +48,10 @@ var Dropdown = function() {
         }
     };
 
-    return Dropdown;
-}();
+    _init();
+
+    return this;
+}
 
 
 var DataManager = {
@@ -67,11 +61,10 @@ var DataManager = {
         var container = document.querySelector('#app-content');
 
         for (var i = 0; i < data.levels; i++) {
-            dropdowns[i] = new Dropdown(i, container, function() {});
-            console.log(dropdowns[i])
+            dropdowns.push(new Dropdown(i, container, function() {}));
         }
 
-        dropdowns[1].render(data.rootItems);
+        dropdowns[0].render(data.rootItems);
     }
 };
 
