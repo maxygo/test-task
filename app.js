@@ -69,6 +69,7 @@ var DataManager = {
     getData: function () {
         var data = TestData();
         this.parse(data, 0, null);
+
     },
 
     parseFlat: function (parentId, data) {
@@ -104,9 +105,5 @@ var DataManager = {
         }
         return result;
     }
-
 };
-var d = new Dropdown(0, document.querySelector('#app-content'), function (level, item) {console.log(level, item);});
-d.render([{id:1, name: '1'}, {id:2, name: '2'}]);
-d.render([{id:4, name: '4'}, {id:3, name: '3'}]);
-console.log(d);
+
