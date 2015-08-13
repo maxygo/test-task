@@ -61,14 +61,18 @@ var Dropdown = function() {
 
 
 var DataManager = {
-    data: [],
-    levelAmount: 0,
     init: function () {
-    },
+        var data = new ItemTree(TestData());
+        var dropdowns = [];
+        var container = document.querySelector('#app-content');
 
-    getData: function () {
-        var data = TestData();
-        var fake = new ItemTree(data);
+        for (var i = 0; i < data.levels; i++) {
+            dropdowns[i] = new Dropdown(i, container, function() {});
+            console.log(dropdowns[i])
+        }
+
+        dropdowns[1].render(data.rootItems);
     }
 };
 
+DataManager.init();

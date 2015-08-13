@@ -9,18 +9,14 @@
 
 <body>
   <div id="app-content"></div>
+  <script src="js/item-tree.js"></script>
+  <script src="data.js"></script>
   <script src="app.js"></script>
 </body>
 
 <script type="text/javascript">
     document.onload = function () {
-        DataManager.getData(function() {
-
-        });
-        var d = new Dropdown(0, document.querySelector('#app-content'), function (level, item) {console.log(level, item);});
-        d.render([{id:1, name: '1'}, {id:2, name: '2'}]);
-        d.render([{id:4, name: '4'}, {id:3, name: '3'}]);
-        console.log(d);
+        DataManager.init()
     }
 </script>
 
