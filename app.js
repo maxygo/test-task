@@ -12,7 +12,6 @@ var Dropdown = function() {
         _items = [];
 
         _init();
-        //Dropdown.prototype.render([]);
     }
 
     var _getItemById = function (itemId) {
@@ -27,20 +26,26 @@ var Dropdown = function() {
         _oSelect = document.createElement("select");
         _oSelect.id = "dropdown-" + _level;
         _oSelect.options.add( new Option("Not Selected", -1) );
+        _oSelect.addEventListener("change", function () {
+            var itemId = this.options[this.selectedIndex].value;
+            var item = _getItemById(itemId);
+            _callback(_level, item);
+        });
+        _oContainer.appendChild(_oSelect);
     };
 
     Dropdown.prototype.clear = function () {
-        _items = [];
-        _oSelect.disabled = false;
-
-        for (var i = 1; i <= _oSelect.options.length; i++) {
-            _oSelect.options[i] = null;
+        // Note: clear all excluding 'Not Selected' option
+        while (_oSelect.options.length > 1) {
+            _oSelect.remove(1);
         }
     };
 
     Dropdown.prototype.render = function (items) {
-        this.clear();
         _items = items;
+        _oSelect = document.getElementById("dropdown-" + _level);
+        _oSelect.disabled = false;
+        this.clear();
 
         if (_items.length > 0) {
             for (var i = 0; i < _items.length; i++) {
@@ -49,21 +54,12 @@ var Dropdown = function() {
         } else {
             _oSelect.disabled = true;
         }
-
-        var frag = document.createDocumentFragment();
-
-        _oSelect.addEventListener("change", function () {
-            var itemId = this.options[this.selectedIndex].value;
-            var item = _getItemById(itemId);
-            _callback(_level, item);
-        });
-        frag.appendChild(_oSelect);
-        _oContainer.appendChild(frag);
     };
 
     return Dropdown;
 }();
 
 var d = new Dropdown(0, document.querySelector('#app-content'), function (level, item) {console.log(level, item);});
-d.render([{id:1, name: 'sdfsdfsdf'}, {id:2, name: 'fsdfsdfsdfsdfsdf'}]);
+d.render([{id:1, name: '1'}, {id:2, name: '2'}]);
+d.render([{id:4, name: '4'}, {id:3, name: '3'}]);
 console.log(d);
