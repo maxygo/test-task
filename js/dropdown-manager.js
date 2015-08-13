@@ -17,7 +17,7 @@ function DropdownManager(container, itemTree) {
         for (var i = nextLevel; i < dropdowns.length; i++) {
             dropdowns[i].render([])
         }
-        if (nextLevel < dropdowns.length) {
+        if (nextLevel < dropdowns.length && item !== undefined) {
             dropdowns[nextLevel].render(item.items);
         }
     }
