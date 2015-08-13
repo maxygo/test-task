@@ -1,4 +1,5 @@
-var testData = [
+function TestData() {
+    return [
     {id: 1, name: 'A', parentId: null},
     {id: 2, name: 'B', parentId: null},
     {id: 3, name: 'C', parentId: null},
@@ -20,4 +21,5 @@ var testData = [
     {id: 19, name: 'Test', parentId: 14},
     {id: 20, name: 'Foo', parentId: 14},
     {id: 21, name: 'Bar', parentId: 14}
-];
+    ]
+};

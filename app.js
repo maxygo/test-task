@@ -67,7 +67,7 @@ var DataManager = {
     },
 
     getData: function () {
-        var data = testData;
+        var data = TestData();
         this.parse(data, 0, null);
     },
 
