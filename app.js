@@ -34,7 +34,7 @@ var Dropdown = function() {
         _oContainer.appendChild(_oSelect);
     };
 
-    Dropdown.prototype.clear = function () {
+    var _clear = function () {
         // Note: clear all excluding 'Not Selected' option
         while (_oSelect.options.length > 1) {
             _oSelect.remove(1);
@@ -45,7 +45,7 @@ var Dropdown = function() {
         _items = items;
         _oSelect = document.getElementById("dropdown-" + _level);
         _oSelect.disabled = false;
-        this.clear();
+        _clear();
 
         if (_items.length > 0) {
             for (var i = 0; i < _items.length; i++) {
