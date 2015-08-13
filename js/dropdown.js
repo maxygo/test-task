@@ -23,6 +23,7 @@ function Dropdown(level, oContainer, callback) {
             var item = _getItemById(itemId);
             _callback(_level, item);
         });
+        _oSelect.disabled = true;
         _oContainer.appendChild(_oSelect);
     };
 
@@ -52,20 +53,3 @@ function Dropdown(level, oContainer, callback) {
 
     return this;
 }
-
-
-var DataManager = {
-    init: function () {
-        var data = new ItemTree(TestData());
-        var dropdowns = [];
-        var container = document.querySelector('#app-content');
-
-        for (var i = 0; i < data.levels; i++) {
-            dropdowns.push(new Dropdown(i, container, function() {}));
-        }
-
-        dropdowns[0].render(data.rootItems);
-    }
-};
-
-DataManager.init();
