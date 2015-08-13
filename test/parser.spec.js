@@ -29,11 +29,15 @@ describe("Parser", function () {
         var result = new ItemTree([{id: 1, name: "first"}, {id: 2, name: "second"}]);
 
         expect(result.rootItems).toEqual([{id: 1, name: "first", items: []}, {id: 2, name: "second", items: []}]);
+        expect(result.levels).toEqual(1);
     });
 
     it("parse one root with one child", function () {
         var result = new ItemTree([{id: 1, name: "root", parentId: null}, {id: 2, name: "child", parentId: 1}]);
 
         expect(result.rootItems).toEqual([{id: 1, name: "root", parentId: null, items: [{id: 2, name: "child", parentId: 1, items: []}]}]);
+        expect(result.levels).toEqual(2);
     });
+
+
 });

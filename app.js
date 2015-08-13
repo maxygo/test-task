@@ -68,42 +68,7 @@ var DataManager = {
 
     getData: function () {
         var data = TestData();
-        this.parse(data, 0, null);
-
-    },
-
-    parseFlat: function (parentId, data) {
-        var result = [], children = {};
-        for (var i = 0; i < data.length; i++) {
-            var item = data[i];
-            var parentId = data[i].parentId;
-            if (parentId) {
-                var items = children[parentId] ? children[parentId] : children[parentId] = [];
-                items.push(item)
-            } else {
-                result.push(item);
-            }
-        }
-
-        for (var i = 0; i < result.length; i++) {
-            result[i].items = children[result[i].id] || [];
-        }
-
-        return result;
-    },
-
-    parse: function(parentId, data) {
-        var result = [];
-        for(var i = 0; i < data.length; i++) {
-            if (!parentId) {
-
-            }
-            if (data[i].parentId == parentId) {
-                data[i].items = this.parse(data[i].id, data);
-                result.push(data[i]);
-            }
-        }
-        return result;
+        var fake = new ItemTree(data);
     }
 };
 
