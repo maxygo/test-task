@@ -53,15 +53,3 @@ function Dropdown(level, oContainer, callback) {
 
     return this;
 }
-
-
-var DataManager = {
-    init: function () {
-        var container = document.querySelector('#app-content');
-        var itemTree = new ItemTree(TestData());
-
-        new DropdownManager(container, itemTree)
-    }
-};
-
-DataManager.init();

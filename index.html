@@ -10,19 +10,22 @@
             margin-bottom: 25px;
         }
     </style>
+
+    <script src="js/item-tree.js"></script>
+    <script src="data.js"></script>
+    <script src="js/dropdown.js"></script>
+    <script src="js/dropdown-manager.js"></script>
 </head>
 
 <body>
     <div id="app-content"></div>
-    <script src="js/item-tree.js"></script>
-    <script src="data.js"></script>
-    <script src="js/dropdown.js"></script>
 </body>
 
 <script type="text/javascript">
-    document.onload = function () {
-//        DataManager.init()
-    }
+    var container = document.querySelector('#app-content');
+    var itemTree = new ItemTree(TestData());
+
+    new DropdownManager(container, itemTree);
 </script>
 
 </html>
