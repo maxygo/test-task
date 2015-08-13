@@ -1,6 +1,3 @@
-/**
- * Created by maximg on 13/08/2015.
- */
 function ItemTree(data) {
     var self = this;
     self.levels = 0;

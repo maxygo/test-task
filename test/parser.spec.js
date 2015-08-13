@@ -1,6 +1,3 @@
-/**
- * Created by maximg on 13/08/2015.
- */
 describe("Parser", function () {
 
     function i(parentId, id, name, items) {
