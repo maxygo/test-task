@@ -4,22 +4,49 @@ function DropdownManager(container, itemTree) {
 
     function init() {
         for (var i = 0; i < itemTree.levels; i++) {
-            dropdowns.push(new Dropdown(i, container, onItemSelect));
+            var dropdown = new Dropdown(i, container, onItemSelect, filterCallback);
+            dropdown.render(getItems(itemTree.rootItems, i));
+            dropdowns.push(dropdown);
         }
-
-        dropdowns[0].render(itemTree.rootItems);
     }
 
     init();
 
+    function getItems(data, targetLevel, depth) {
+        var currentLevel = depth ? depth : 0;
+
+        if (currentLevel == targetLevel) {
+            return data;
+        }
+
+        var result = [];
+        for (var i = 0; i < data.length; i++) {
+            result = result.concat(getItems(data[i].items, targetLevel, currentLevel + 1));
+        }
+
+        return result;
+    }
+
     function onItemSelect(level, item) {
+        if (!item) return;
+        var items;
         var nextLevel = level + 1;
         for (var i = nextLevel; i < dropdowns.length; i++) {
-            dropdowns[i].render([])
+            items = getItems(item.items, i, nextLevel);
+
+            var selectedItem = dropdowns[i-1].getSelectedItem();
+            if (selectedItem) {
+                items = selectedItem.items;
+            }
+            var items1 = getItems(items, i, i);
+            dropdowns[i].filter(((items1) ? items1 : []))
         }
-        if (nextLevel < dropdowns.length && item !== undefined) {
-            dropdowns[nextLevel].render(item.items);
-        }
+    }
+
+    function filterCallback(level, parentId) {
+        if (level === 0) return;
+
+        dropdowns[level - 1].filterItemsByParentId(parentId);
     }
 
     return this;

@@ -1,10 +1,12 @@
-function Dropdown(level, oContainer, callback) {
+function Dropdown(level, oContainer, selectCallback, filterCallback) {
 
     var _level = level,
-        _callback = callback,
+        _selectCallback = selectCallback,
+        _filterCallback = filterCallback,
         _oContainer = oContainer,
         _items = [],
-        _oSelect;
+        _oSelect,
+        _filteredItems = [];
 
     var _getItemById = function (itemId) {
         for (var i = 0; i < _items.length; i++) {
@@ -21,16 +23,25 @@ function Dropdown(level, oContainer, callback) {
         _oSelect.addEventListener("change", function () {
             var itemId = this.options[this.selectedIndex].value;
             var item = _getItemById(itemId);
-            _callback(_level, item);
+
+            _selectCallback(_level, item);
+
+            if (!item) return;
+            _filterCallback(_level, item.parentId);
         });
         _oSelect.disabled = true;
         _oContainer.appendChild(_oSelect);
     };
 
     var _clear = function () {
-        // Note: clear all excluding 'Not Selected' option
-        while (_oSelect.options.length > 1) {
-            _oSelect.remove(1);
+        // Note: clear all excluding 'Not Selected' and selected options
+        var length = _oSelect.options.length;
+        var selectedIndex = _oSelect.selectedIndex;
+
+        for (var i = length; i >= 1; i--) {
+            if (selectedIndex != i) {
+                _oSelect.remove(i);
+            }
         }
     };
 
@@ -40,13 +51,51 @@ function Dropdown(level, oContainer, callback) {
         _oSelect.disabled = false;
         _clear();
 
-        if (_items.length > 0) {
+        if (_items.length > 0 && _oSelect.selectedIndex === 0) {
             for (var i = 0; i < _items.length; i++) {
-                _oSelect.options.add( new Option(_items[i]['name'], _items[i]['id']) );
+                _oSelect.options.add(new Option(_items[i]['name'], _items[i]['id']));
             }
-        } else {
-            _oSelect.disabled = true;
         }
+    };
+
+    this.filterItemsByParentId = function (itemId) {
+        var filteredItem;
+
+        for (var i = 0; i < _items.length; i++) {
+            if (_items[i]['id'] === itemId) {
+                filteredItem = _items[i];
+            }
+        }
+
+        _filteredItems = [filteredItem];
+
+        _oSelect = document.getElementById("dropdown-" + _level);
+        _clear();
+
+        for (var j = 0; j < _items.length; j++) {
+            if (filteredItem == _items[j] && this.getSelectedItem() != _items[j] ) {
+                _oSelect.options.add(new Option(_items[j]['name'], _items[j]['id']));
+            }
+        }
+
+        _filterCallback(_level, filteredItem.parentId);
+    };
+
+    this.filter = function (items) {
+        _oSelect = document.getElementById("dropdown-" + _level);
+        _oSelect.disabled = false;
+        _clear();
+
+        for (var i = 0; i < items.length; i++) {
+            if ((_filteredItems.length == 0 || _filteredItems.indexOf(items[i]) !== -1) && this.getSelectedItem() != items[i] ) {
+                _oSelect.options.add(new Option(items[i]['name'], items[i]['id']));
+            }
+        }
+    };
+
+    this.getSelectedItem = function () {
+        var itemId = _oSelect.options[_oSelect.selectedIndex].value;
+        return _getItemById(itemId);
     };
 
     _init();
