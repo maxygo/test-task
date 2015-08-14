@@ -98,6 +98,10 @@ function Dropdown(level, oContainer, selectCallback, filterCallback) {
         return _getItemById(itemId);
     };
 
+    this.resetSelectedItem = function() {
+        _oSelect.selectedIndex = 0;
+    };
+
     _init();
 
     return this;

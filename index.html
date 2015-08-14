@@ -15,6 +15,7 @@
     <script src="data.js"></script>
     <script src="js/dropdown.js"></script>
     <script src="js/dropdown-manager.js"></script>
+    <script src="js/action-manager.js"></script>
 </head>
 
 <body>
@@ -25,7 +26,8 @@
     var container = document.querySelector('#app-content');
     var itemTree = new ItemTree(TestData());
 
-    new DropdownManager(container, itemTree);
+    var dManager = new DropdownManager(container, itemTree);
+    new ActionManager(container, dManager);
 </script>
 
 </html>

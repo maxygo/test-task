@@ -49,5 +49,19 @@ function DropdownManager(container, itemTree) {
         dropdowns[level - 1].filterItemsByParentId(parentId);
     }
 
+    this.getSelectedOptions = function() {
+        var result = [];
+        dropdowns.forEach(function(dropdown) {
+            result.push(dropdown.getSelectedItem());
+        });
+        return result;
+    };
+
+    this.reset = function() {
+        dropdowns.forEach(function(dropdown) {
+            dropdown.resetSelectedItem();
+        });
+    };
+
     return this;
 }
